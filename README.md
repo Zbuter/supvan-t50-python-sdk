@@ -26,11 +26,11 @@ python -m pip install -e ".[usb]"
 ## 快速测试
 
 ```powershell
-python examples/ble_print.py --print
-python examples/usb_native_print.py --execute
-python examples/unified_print.py --backend ble --print
-python examples/unified_print.py --backend usb --print
+python examples/demo.py
 ```
+
+`demo.py` 包含一个完整的产品标签示例（文字 + Code 128 条码 + 二维码），默认通过 USB 打印。
+如需切换为 BLE 或生成预览图，取消 `demo.py` 中对应注释即可。
 
 完整说明见 [docs/SDK.md](docs/SDK.md)。
 
