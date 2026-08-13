@@ -33,7 +33,7 @@ def build_product_label() -> PrintJob:
                    DrawObject(1.5, 10, 25, 3.5, "SKU: COFFEE-250", font_size=2.2),
                    DrawObject(1.5, 14, 25, 10, "6901234567892", format=ObjectFormat.CODE_128),
                    DrawObject(1.5, 24.5, 25, 3, "6901234567892", font_size=2, align=1),
-                   DrawObject(28, 8, 10, 10, "https://cdp-cn-hangzhou-2.cloud.neuetech.cn/#/app-render?odataType=cdp1.AbstractPart&appId=ncid1.cdp0appmanagement.local..abstractpart001&layoutId=ncid1.cdp0-u-i-layout-config.cn-hangzhou-2..019e8267-4884-7ad3-9ade-f49269008dce", format=ObjectFormat.QR_CODE),
+                   DrawObject(28, 8, 10, 10, "https://example.com/product/coffee-250", format=ObjectFormat.QR_CODE),
                    DrawObject(27, 19, 12, 7, "扫码查看\n商品详情", font_size=2.1, align=1, auto_return=True),
                ])
                ],
