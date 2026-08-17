@@ -76,7 +76,13 @@ class PrinterStatus:
     @property
     def ready(self) -> bool:
         """设备是否处于可接受新打印任务的就绪状态。"""
-        return self.state == PrinterState.READY and self.job_state in (None, JobState.WAITING)
+        return (
+            self.state == PrinterState.READY
+            and self.job_state in (None, JobState.WAITING)
+            and not self.busy
+            and not self.printing
+            and not self.second_device_busy
+        )
 
     @classmethod
     def from_state(cls, state: int, **kwargs: object) -> "PrinterStatus":

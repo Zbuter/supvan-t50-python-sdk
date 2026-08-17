@@ -131,6 +131,12 @@ class PrintSettings:
             raise ValidationError("gap 范围为 0-8 mm")
         if not 20 <= self.speed <= 60:
             raise ValidationError("speed 范围为 20-60 mm/s")
+        if self.direction not in (0, 1, 2, 3):
+            raise ValidationError("direction 必须是 0-3")
+        if self.max_dot_value <= 0 or self.max_dot_value > 384:
+            raise ValidationError("max_dot_value 范围为 1-384")
+        if self.dpi <= 0:
+            raise ValidationError("dpi 必须大于 0")
         if self.material_width is not None and self.material_width <= 0:
             raise ValidationError("耗材宽高必须大于 0")
         if self.material_height is not None and self.material_height <= 0:

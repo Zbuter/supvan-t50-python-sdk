@@ -108,6 +108,19 @@ class T50StatusFlags:
             printed_pages=self.printed_pages,
             total_pages=total_pages,
             raw=self.raw,
+            raw_flags=self.raw,
+            buffer_full=self.buffer_full,
+            label_read_write_error=self.media_read_write_error,
+            media_empty=self.media_empty,
+            media_unrecognized=self.media_mode_error,
+            media_not_installed=self.media_install_error or self.media_not_installed,
+            battery_low=self.low_battery,
+            busy=self.device_busy,
+            cover_open=self.cover_open,
+            printing=self.printing,
+            second_device_busy=self.second_device_busy,
+            label_not_installed=self.media_not_installed,
+            charging=self.charging,
         )
 
     @property

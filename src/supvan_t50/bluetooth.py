@@ -256,7 +256,7 @@ class BluetoothPrinter:
         last = status
         while time.monotonic() < deadline:
             last = self.get_status(timeout=max(0.1, deadline - time.monotonic()))
-            if not last.ready:
+            if not last.ready and not (last.printing or last.busy):
                 raise DeviceError(last.description)
             observed_printing = observed_printing or last.printing or last.busy
             if last.printed_pages > initial_pages and not last.printing and not last.busy:

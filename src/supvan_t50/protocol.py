@@ -61,6 +61,9 @@ def build_query(command: int, value: int = 0, value2: int = 0) -> bytes:
 
 
 def build_u32_query(command: int, value: int, trailing: int) -> bytes:
+    _uint(command, 8, "command")
+    _uint(value, 32, "value")
+    _uint(trailing, 8, "trailing")
     frame = bytearray(17)
     frame[:8] = bytes((0x7E, 0x5A, 13, 0, 0x10, 1, 0xAA, command & 0xFF))
     frame[10:17] = bytes((0, 1, value & 0xFF, (value >> 8) & 0xFF, (value >> 16) & 0xFF, (value >> 24) & 0xFF, trailing & 0xFF))

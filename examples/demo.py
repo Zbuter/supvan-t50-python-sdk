@@ -46,29 +46,29 @@ def main() -> None:
     # preview_job(job, preview_path)
     # print("预览图:", preview_path)
 
-    # devices = BluetoothPrinter.discover("T0")
-    # if not devices:
-    #     raise RuntimeError("未发现 T0 BLE 打印机")
-    #
-    # device = devices[0]
-    # print(f"连接设备: {device.name} ({device.address}), RSSI={device.rssi}")
-    #
-    # with BluetoothPrinter.from_device(device) as printer:
-    #     status = printer.get_status()
-    #     print("蓝牙打印机状态:", status.description)
-    #     box = printer.read_label_box()
-    #     print("蓝牙标签盒:", box)
-    #     # print("打印结果:", printer.print(job))
+    devices = BluetoothPrinter.discover("T0")
+    if not devices:
+        raise RuntimeError("未发现 T0 BLE 打印机")
 
+    device = devices[0]
+    print(f"连接设备: {device.name} ({device.address}), RSSI={device.rssi}")
 
-    print("可用的 USB 打印机设备:",UsbPrinter.list_devices())
-
-    with UsbPrinter() as printer:
+    with BluetoothPrinter.from_device(device) as printer:
         status = printer.get_status()
-        print("USB打印机状态:", status.description)
+        print("蓝牙打印机状态:", status.description)
         box = printer.read_label_box()
-        print("USB标签盒:", box)
+        print("蓝牙标签盒:", box)
         print("打印结果:", printer.print(job))
+
+
+    # print("可用的 USB 打印机设备:",UsbPrinter.list_devices())
+    #
+    # with UsbPrinter() as printer:
+    #     status = printer.get_status()
+    #     print("USB打印机状态:", status.description)
+    #     box = printer.read_label_box()
+    #     print("USB标签盒:", box)
+    #     print("打印结果:", printer.print(job))
 
 if __name__ == "__main__":
     main()

@@ -36,6 +36,12 @@ def test_common_printer_protocol_is_structural() -> None:
     assert isinstance(BluetoothPrinter(FakeTransport()), Printer)
 
 
+def test_common_status_is_not_ready_while_printing_or_busy() -> None:
+    assert not PrinterStatus.from_state(0, printing=True).ready
+    assert not PrinterStatus.from_state(0, busy=True).ready
+    assert not PrinterStatus.from_state(0, second_device_busy=True).ready
+
+
 def test_bluetooth_printer_high_level_factories(monkeypatch) -> None:
     device = BleDeviceInfo("T0123", "AA:BB:CC:DD:EE:FF", -42)
     monkeypatch.setattr("supvan_t50.bluetooth.BleTransport.discover_devices", lambda **kwargs: [device])

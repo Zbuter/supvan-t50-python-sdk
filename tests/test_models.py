@@ -2,7 +2,7 @@ import pytest
 
 from supvan_t50.errors import ValidationError
 from supvan_t50.models import DrawObject, FontStyle, ObjectFormat, PrintJob, PrintPage, PrintSettings
-from supvan_t50.protocol import parse_label_box
+from supvan_t50.protocol import build_u32_query, parse_label_box
 
 
 def test_parse_real_label_box_response_fields() -> None:
@@ -40,6 +40,14 @@ def test_parse_label_box_with_shorter_response_prefix() -> None:
     assert box.remaining == 250
 
 
+def test_u32_query_validates_wire_field_widths() -> None:
+    assert len(build_u32_query(0x11, 0x12345678, 0x01)) == 17
+    with pytest.raises(ValueError):
+        build_u32_query(0x11, 0x100000000, 0x01)
+    with pytest.raises(ValueError):
+        build_u32_query(0x11, 0, 0x100)
+
+
 def test_format_aliases() -> None:
     assert ObjectFormat.parse("QRCODE") is ObjectFormat.QR_CODE
     assert ObjectFormat.parse("code128") is ObjectFormat.CODE_128
@@ -70,6 +78,15 @@ def test_print_settings_resolves_only_missing_media_values() -> None:
 def test_invalid_copies() -> None:
     with pytest.raises(ValidationError):
         PrintSettings(copies=0)
+
+
+def test_protocol_settings_validate_usb_direction_and_head_width() -> None:
+    with pytest.raises(ValidationError, match="direction"):
+        PrintSettings(direction=4)
+    with pytest.raises(ValidationError, match="max_dot_value"):
+        PrintSettings(max_dot_value=385)
+    with pytest.raises(ValidationError, match="dpi"):
+        PrintSettings(dpi=0)
 
 
 def test_image_requires_source() -> None:

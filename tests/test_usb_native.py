@@ -191,11 +191,21 @@ def test_native_print_state_machine() -> None:
     printer = UsbPrinter("usb:1820:2073:*:*", transport=transport, timeout=1)
     assert printer.print(job)
     command_ids = [item[0] for item in transport.commands]
-    assert command_ids[:4] == [CMD_SET_MEDIA, CMD_CHECK_DEVICE, CMD_INQUIRY_STATUS, CMD_START_PRINT]
+    assert command_ids[:5] == [CMD_RETURN_MAT, CMD_SET_MEDIA, CMD_CHECK_DEVICE, CMD_INQUIRY_STATUS, CMD_START_PRINT]
     assert CMD_TRANSFER_DATA in command_ids
     assert CMD_BUFFER_FULL in command_ids
     assert len(transport.payloads[0]) == 80
     assert len(transport.payloads[1]) <= 4096
+
+
+def test_native_print_skips_optional_label_box_read_when_media_is_explicit() -> None:
+    transport = _FakeTransport()
+    job = PrintJob(
+        settings=PrintSettings(material_width=48, material_height=8, gap=3, speed=40),
+        pages=[PrintPage(width=48, height=8, objects=[DrawObject(1, 1, 20, 4, "USB")])],
+    )
+    assert UsbPrinter(transport=transport, timeout=1).print(job)
+    assert transport.commands[0][0] == CMD_SET_MEDIA
 
 
 def test_native_status_api() -> None:

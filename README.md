@@ -32,7 +32,7 @@ python examples/demo.py
 `demo.py` 包含一个完整的产品标签示例（文字 + Code 128 条码 + 二维码），默认通过 USB 打印。
 如需切换为 BLE 或生成预览图，取消 `demo.py` 中对应注释即可。
 
-完整说明见 [docs/SDK.md](docs/SDK.md)。
+完整说明见 [docs/SDK.md](docs/SDK.md)，协议差异和 USB 命令流程见 [docs/PROTOCOL.md](docs/PROTOCOL.md)。
 
 `PrintSettings` 的 `material_width`、`material_height`、`gap` 默认从打印机当前
 标签盒读取；显式填写的值优先。`PrintPage` 始终保留每页自己的设计尺寸和绘制对象，
